@@ -12,9 +12,9 @@
             --primary: #1a73e8;
             --primary-hover: #1557b0;
             --accent-green: #34c759;
-            --accent-green: #2ea44f;
+            --accent-green-hover: #2ea44f;
             --danger-red: #ff3b30;
-            --danger-red: #cc3333;
+            --danger-red-hover: #cc3333;
             --neutral: #e8ecef;
             --neutral-hover: #dfe4e8;
             --text: #222;
@@ -36,7 +36,7 @@
             line-height: 1.5;
             padding: 8px;
             margin-bottom: 60px;
-        min-height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -86,9 +86,9 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
-            display: inline-block-flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center-align;
+            justify-content: center;
             gap: 6px;
             min-width: 40px;
             transition: background 0.2s, transform 0.1s;
@@ -181,7 +181,7 @@
         }
 
         #currentPlaylist li, #fsPresetList li {
-            background: var(--bg-white);
+            background: #fff;
             padding: 10px;
             margin-bottom: 8px;
             border-radius: 8px;
@@ -220,16 +220,17 @@
         }
 
         .video-title, .preset-name {
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: normal;
+            font-size: 0.85rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 200px;
         }
 
-        .video-id, .preset-type, .preset-video-count {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .video-id, .subtitle {
+            font-size: 0.8rem;
+            color: #666;
         }
 
         .list-item-actions {
@@ -242,7 +243,7 @@
         .preset-videos {
             margin-top: 10px;
             padding-left: 16px;
-            border-left: 2px solid var(--border);
+            border-left: 2px solid #d1d5db;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
@@ -274,15 +275,15 @@
         }
 
         .auth-status {
-            color: var(--danger-red);
+            color: #ff3b30;
             font-weight: 500;
         }
 
         .warning {
-            color: var(--danger-red);
+            color: #ff3b30;
             font-size: 0.9rem;
             text-align: center;
-            border: 1px solid var(--danger-red);
+            border: 1px solid #ff3b30;
             padding: 8px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -294,7 +295,7 @@
 
         .loader {
             border: 2px solid #f3f3f3;
-            border-top: 2px solid var(--primary);
+            border-top: 2px solid #1a73e8;
             border-radius: 50%;
             width: 14px;
             height: 14px;
@@ -349,11 +350,12 @@
             }
 
             .video-title, .preset-name {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
+                max-width: 150px;
             }
 
-            .video-id, .preset-type, .preset-video-count {
-                font-size: 0.8rem;
+            .video-id, .subtitle {
+                font-size: 0.75rem;
             }
 
             .list-item-actions {
@@ -859,15 +861,15 @@
                     const thumbSrcDefault = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                     if (p.type === 'single' && p.videoId) {
                         const thumb = p.thumbnail || thumbSrcDefault;
-                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!p.thumbnail ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="preset-type">(単一)</span></div>`;
+                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!p.thumbnail ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="subtitle">(単一)</span></div>`;
                         actionType = 'single';
                     } else if (p.type === 'list' && p.videos && p.videos.length > 0) {
                         const first = p.videos[0];
                         const thumb = (first && first.thumbnail) || thumbSrcDefault;
-                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!(first && first.thumbnail) ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="preset-video-count">(${p.videos.length}件)</span></div>`;
+                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!(first && first.thumbnail) ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="subtitle">(${p.videos.length}件)</span></div>`;
                         actionType = 'list';
                     } else {
-                        infoHtml = `<div class="list-item-details"><span class="preset-name">${p.name}</span><span class="preset-type">(不明)</span></div>`;
+                        infoHtml = `<div class="list-item-details"><span class="preset-name">${p.name}</span><span class="subtitle">(不明)</span></div>`;
                         actionType = '';
                     }
                     const li = document.createElement('li');
