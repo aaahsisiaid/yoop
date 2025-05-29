@@ -181,7 +181,7 @@
         }
 
         #currentPlaylist li, #fsPresetList li {
-            background: #fff;
+            background: var(--bg-white);
             padding: 10px;
             margin-bottom: 8px;
             border-radius: 8px;
@@ -210,8 +210,9 @@
             width: 64px;
             height: 36px;
             object-fit: cover;
-            margin-right: 10px;
             border-radius: 4px;
+            order: -1;
+            margin-right: 10px;
         }
 
         .list-item-details {
@@ -220,7 +221,7 @@
         }
 
         .video-title, .preset-name {
-            font-weight: normal;
+            font-weight: 500;
             font-size: 0.85rem;
             white-space: nowrap;
             overflow: hidden;
@@ -228,9 +229,9 @@
             max-width: 200px;
         }
 
-        .video-id, .subtitle {
+        .video-id, .preset-type, .preset-video-count {
             font-size: 0.8rem;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .list-item-actions {
@@ -243,7 +244,7 @@
         .preset-videos {
             margin-top: 10px;
             padding-left: 16px;
-            border-left: 2px solid #d1d5db;
+            border-left: 2px solid var(--border);
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
@@ -275,15 +276,15 @@
         }
 
         .auth-status {
-            color: #ff3b30;
+            color: var(--danger-red);
             font-weight: 500;
         }
 
         .warning {
-            color: #ff3b30;
+            color: var(--danger-red);
             font-size: 0.9rem;
             text-align: center;
-            border: 1px solid #ff3b30;
+            border: 1px solid var(--danger-red);
             padding: 8px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -295,7 +296,7 @@
 
         .loader {
             border: 2px solid #f3f3f3;
-            border-top: 2px solid #1a73e8;
+            border-top: 2px solid var(--primary);
             border-radius: 50%;
             width: 14px;
             height: 14px;
@@ -354,7 +355,7 @@
                 max-width: 150px;
             }
 
-            .video-id, .subtitle {
+            .video-id, .preset-type, .preset-video-count {
                 font-size: 0.75rem;
             }
 
@@ -378,11 +379,17 @@
                 height: auto;
                 aspect-ratio: 16/9;
                 margin-bottom: 8px;
+                order: 0;
+            }
+
+            .list-item-details {
+                order: 1;
             }
 
             .list-item-actions {
                 width: 100%;
                 justify-content: flex-end;
+                order: 2;
             }
 
             button {
@@ -485,18 +492,33 @@
         window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
                 videoId: '',
-                playerVars: { 'playsinline': 1, 'autoplay': 0, 'controls': 1, 'loop': 1 },
-                events: { 'onReady': onPlayerReady }
+                playerVars: { 'playsinline': 1, 'autoplay': 0, 'controls': 1, 'loop': 0 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
             });
         };
-        const ytApiTag = document.createElement('script');
-        ytApiTag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(ytApiTag, firstScriptTag);
 
         function onPlayerReady(event) {
             renderCurrentPlaylist();
         }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED && currentEditingPlaylist.length > 0) {
+                const currentIndex = player.getPlaylistIndex();
+                const nextIndex = (currentIndex + 1) % currentEditingPlaylist.length;
+                player.loadPlaylist({
+                    playlist: currentEditingPlaylist.map(v => v.id),
+                    index: nextIndex
+                });
+            }
+        }
+
+        const ytApiTag = document.createElement('script');
+        ytApiTag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(ytApiTag, firstScriptTag);
 
         async function simpleHash(text) {
             if (!text || typeof crypto === 'undefined' || !crypto.subtle || !crypto.subtle.digest) {
@@ -749,6 +771,7 @@
                 currentEditingPlaylist.splice(parseInt(this.dataset.index, 10), 1);
                 renderCurrentPlaylist();
             }));
+
             currentPlaylistEl.querySelectorAll('.play-from-here-button').forEach(b => b.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const startIndex = parseInt(this.dataset.index, 10);
@@ -758,6 +781,7 @@
                     alert("プレイヤー未準備またはリストが空");
                 }
             }));
+
             currentPlaylistEl.querySelectorAll('.list-item-content.clickable').forEach(c => c.addEventListener('click', function(e) {
                 if (e.target.closest('.list-item-actions')) return;
                 const startIndex = parseInt(this.dataset.index, 10);
@@ -861,15 +885,15 @@
                     const thumbSrcDefault = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                     if (p.type === 'single' && p.videoId) {
                         const thumb = p.thumbnail || thumbSrcDefault;
-                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!p.thumbnail ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="subtitle">(単一)</span></div>`;
+                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!p.thumbnail ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="preset-type">(単一)</span></div>`;
                         actionType = 'single';
                     } else if (p.type === 'list' && p.videos && p.videos.length > 0) {
                         const first = p.videos[0];
                         const thumb = (first && first.thumbnail) || thumbSrcDefault;
-                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!(first && first.thumbnail) ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="subtitle">(${p.videos.length}件)</span></div>`;
+                        infoHtml = `<img class="list-item-thumbnail" src="${thumb}" alt="${p.name}" ${!(first && first.thumbnail) ? 'style="background:#ddd;"' : ''}><div class="list-item-details"><span class="preset-name" title="${p.name}">${p.name}</span><span class="preset-video-count">(${p.videos.length}件)</span></div>`;
                         actionType = 'list';
                     } else {
-                        infoHtml = `<div class="list-item-details"><span class="preset-name">${p.name}</span><span class="subtitle">(不明)</span></div>`;
+                        infoHtml = `<div class="list-item-details"><span class="preset-name">${p.name}</span><span class="preset-type">(不明)</span></div>`;
                         actionType = '';
                     }
                     const li = document.createElement('li');
@@ -916,8 +940,6 @@
                     }
                     if (type === 'single' && preset.videoId) {
                         player.loadVideoById({ videoId: preset.videoId });
-                        player.setLoop(true);
-                        player.loadPlaylist(preset.videoId);
                     } else if (type === 'list' && preset.videos && preset.videos.length > 0) {
                         player.loadPlaylist({ playlist: preset.videos.map(v => v.id), index: 0 });
                     } else {
