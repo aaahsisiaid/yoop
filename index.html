@@ -266,6 +266,8 @@
             border: 1px solid #e5e7eb;
             border-radius: 6px;
             min-height: 56px;
+            display: flex;
+            align-items: center;
         }
 
         .user-info-bar {
@@ -421,10 +423,12 @@
             .video-title, .preset-name {
                 font-size: 0.8rem;
                 max-width: 120px;
+                display: block;
             }
 
             .video-id, .preset-type, .preset-video-count {
                 font-size: 0.75rem;
+                display: block;
             }
 
             .preset-videos .list-item-content {
@@ -435,6 +439,10 @@
             .preset-videos .list-item-thumbnail {
                 width: 48px;
                 height: 27px;
+            }
+
+            .preset-videos .list-item-details {
+                flex: 1;
             }
         }
     </style>
@@ -609,7 +617,7 @@
                 fsUsernameInputEl.value = '';
                 fsPasswordInputEl.value = '';
             } catch (error) {
-                fsAuthStatusEl.textContent('登録エラー');
+                fsAuthStatusEl.textContent = '登録エラー';
             }
         });
 
@@ -713,7 +721,7 @@
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 if (data.error) {
-                    return { id: videoId, title: `動画 (ID: ${videoId})`, thumbnail: null };
+                    return { id:อันvideoId, title: `動画 (ID: ${videoId})`, thumbnail: null };
                 }
                 return { id: videoId, title: data.title || `動画 (ID: ${videoId})`, thumbnail: data.thumbnail_url || null };
             } catch (e) {
@@ -947,7 +955,6 @@
                                     <img class="list-item-thumbnail" src="${thumbSrc}" alt="${video.title || 'サムネイル'}" ${video.thumbnail ? '' : 'style="background:#ddd;"'}>
                                     <div class="list-item-details">
                                         <span class="video-title" title="${video.title || 'タイトルなし'}">${video.title || `動画 ${idx + 1}`}</span>
-                                        <span class="video-id">(ID: ${video.id})</span>
                                     </div>
                                 </div>
                                 <div class="list-item-actions"></div>`;
