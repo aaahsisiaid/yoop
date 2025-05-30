@@ -130,8 +130,10 @@
         .import-button {
             background: var(--accent-green);
             color: #fff;
-            min-width: 30px;
-            padding: 2px;
+            min-width: 28px;
+            padding: 0;
+            height: 28px;
+            font-size: 0.7rem;
         }
 
         .import-button:hover, .import-button:active {
@@ -141,8 +143,10 @@
         .delete-button, .remove-button {
             background: var(--danger-red);
             color: #fff;
-            min-width: 30px;
-            padding: 2px;
+            min-width: 28px;
+            padding: 0;
+            height: 28px;
+            font-size: 0.7rem;
         }
 
         .delete-button:hover, .delete-button:active, .remove-button:hover, .remove-button:active {
@@ -152,8 +156,10 @@
         .toggle-videos-button {
             background: var(--neutral);
             color: var(--text);
-            min-width: 30px;
-            padding: 2px;
+            min-width: 28px;
+            padding: 0;
+            height: 28px;
+            font-size: 0.7rem;
         }
 
         .toggle-videos-button:hover, .toggle-videos-button:active {
@@ -208,7 +214,7 @@
             flex: 1;
             min-width: 0;
             max-width: 100%;
-            flex-wrap: nowrap;
+            flex-wrap: nowrap !important;
         }
 
         .list-item-content.clickable {
@@ -256,7 +262,7 @@
         .list-item-actions {
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: 1px;
             flex-shrink: 0;
             flex-direction: row;
             justify-content: flex-end;
@@ -404,15 +410,15 @@
             .list-item-content {
                 flex-direction: row;
                 align-items: center;
-                flex-wrap: nowrap;
+                flex-wrap: nowrap !important;
                 width: 100%;
                 max-width: 100%;
             }
 
             .list-item-thumbnail {
-                width: 44px;
-                height: 24px;
-                margin-right: 6px;
+                width: 40px;
+                height: 22px;
+                margin-right: 4px;
                 margin-bottom: 0;
                 order: -1;
                 display: block;
@@ -422,7 +428,7 @@
                 flex: 1;
                 order: 0;
                 min-width: 0;
-                max-width: 90px;
+                max-width: 80px;
             }
 
             .list-item-actions {
@@ -430,53 +436,53 @@
                 justify-content: flex-end;
                 order: 1;
                 padding-top: 0;
-                gap: 2px;
+                gap: 1px;
             }
 
             button {
-                padding: 2px;
-                min-width: 30px;
-                height: 30px;
-                font-size: 0.75rem;
+                padding: 0;
+                min-width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
             }
 
             .video-title, .preset-name {
-                font-size: 0.75rem;
-                max-width: 90px;
+                font-size: 0.7rem;
+                max-width: 80px;
                 display: block !important;
-                line-height: 1.2;
+                line-height: 1.1;
             }
 
             .video-id, .preset-type, .preset-video-count {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
                 display: block;
             }
 
             .preset-videos .list-item-content {
                 flex-direction: row;
-                flex-wrap: nowrap;
+                flex-wrap: nowrap !important;
                 max-width: 100%;
             }
 
             .preset-videos .list-item-thumbnail {
-                width: 44px;
-                height: 24px;
-                margin-right: 4px;
+                width: 40px;
+                height: 22px;
+                margin-right: 2px;
             }
 
             .preset-videos .list-item-details {
                 flex: 1;
-                max-width: 90px;
+                max-width: 80px;
             }
 
             .preset-videos li {
-                padding: 6px;
-                min-height: 48px;
+                padding: 4px;
+                min-height: 44px;
             }
 
             #currentPlaylist li, #fsPresetList li {
-                padding: 6px;
-                min-height: 48px;
+                padding: 4px;
+                min-height: 44px;
             }
         }
     </style>
