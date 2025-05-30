@@ -95,6 +95,8 @@
             height: 36px;
             transition: background 0.2s, transform 0.1s;
             touch-action: manipulation;
+            margin: 0;
+            white-space: nowrap;
         }
 
         button:active {
@@ -128,6 +130,8 @@
         .import-button {
             background: var(--accent-green);
             color: #fff;
+            min-width: 30px;
+            padding: 2px;
         }
 
         .import-button:hover, .import-button:active {
@@ -137,6 +141,8 @@
         .delete-button, .remove-button {
             background: var(--danger-red);
             color: #fff;
+            min-width: 30px;
+            padding: 2px;
         }
 
         .delete-button:hover, .delete-button:active, .remove-button:hover, .remove-button:active {
@@ -146,6 +152,8 @@
         .toggle-videos-button {
             background: var(--neutral);
             color: var(--text);
+            min-width: 30px;
+            padding: 2px;
         }
 
         .toggle-videos-button:hover, .toggle-videos-button:active {
@@ -200,6 +208,7 @@
             flex: 1;
             min-width: 0;
             max-width: 100%;
+            flex-wrap: nowrap;
         }
 
         .list-item-content.clickable {
@@ -224,6 +233,7 @@
             flex: 1;
             overflow: hidden;
             min-width: 0;
+            max-width: 120px;
         }
 
         .video-title, .preset-name {
@@ -246,8 +256,10 @@
         .list-item-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 2px;
             flex-shrink: 0;
+            flex-direction: row;
+            justify-content: flex-end;
         }
 
         .preset-videos {
@@ -374,7 +386,7 @@
             }
 
             .list-item-actions {
-                gap: 6px;
+                gap: 2px;
             }
 
             .preset-videos li {
@@ -398,9 +410,9 @@
             }
 
             .list-item-thumbnail {
-                width: 48px;
-                height: 27px;
-                margin-right: 8px;
+                width: 44px;
+                height: 24px;
+                margin-right: 6px;
                 margin-bottom: 0;
                 order: -1;
                 display: block;
@@ -410,6 +422,7 @@
                 flex: 1;
                 order: 0;
                 min-width: 0;
+                max-width: 90px;
             }
 
             .list-item-actions {
@@ -421,21 +434,21 @@
             }
 
             button {
-                padding: 4px;
-                min-width: 32px;
-                height: 32px;
-                font-size: 0.85rem;
+                padding: 2px;
+                min-width: 30px;
+                height: 30px;
+                font-size: 0.75rem;
             }
 
             .video-title, .preset-name {
-                font-size: 0.8rem;
-                max-width: 100px;
+                font-size: 0.75rem;
+                max-width: 90px;
                 display: block !important;
                 line-height: 1.2;
             }
 
             .video-id, .preset-type, .preset-video-count {
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 display: block;
             }
 
@@ -446,14 +459,14 @@
             }
 
             .preset-videos .list-item-thumbnail {
-                width: 48px;
-                height: 27px;
-                margin-right: 6px;
+                width: 44px;
+                height: 24px;
+                margin-right: 4px;
             }
 
             .preset-videos .list-item-details {
                 flex: 1;
-                max-width: 100px;
+                max-width: 90px;
             }
 
             .preset-videos li {
@@ -462,8 +475,8 @@
             }
 
             #currentPlaylist li, #fsPresetList li {
-                padding: 8px;
-                min-height: 52px;
+                padding: 6px;
+                min-height: 48px;
             }
         }
     </style>
