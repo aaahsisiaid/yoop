@@ -92,6 +92,7 @@
             justify-content: center;
             gap: 6px;
             min-width: 48px;
+            height: 36px;
             transition: background 0.2s, transform 0.1s;
             touch-action: manipulation;
         }
@@ -198,6 +199,7 @@
             align-items: center;
             flex: 1;
             min-width: 0;
+            max-width: 100%;
         }
 
         .list-item-content.clickable {
@@ -221,6 +223,7 @@
         .list-item-details {
             flex: 1;
             overflow: hidden;
+            min-width: 0;
         }
 
         .video-title, .preset-name {
@@ -230,7 +233,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 200px;
-            display: block;
+            display: block !important;
+            line-height: 1.2;
         }
 
         .video-id, .preset-type, .preset-video-count {
@@ -257,7 +261,7 @@
         }
 
         .preset-videos.expanded {
-            max-height: 800px;
+            max-height: 600px;
         }
 
         .preset-videos li {
@@ -265,7 +269,7 @@
             margin-bottom: 6px;
             border: 1px solid #e5e7eb;
             border-radius: 6px;
-            min-height: 56px;
+            min-height: 52px;
             display: flex;
             align-items: center;
         }
@@ -347,6 +351,7 @@
                 padding: 8px 12px;
                 font-size: 0.95rem;
                 min-width: 44px;
+                height: 34px;
             }
 
             .list-item-content {
@@ -389,6 +394,7 @@
                 align-items: center;
                 flex-wrap: nowrap;
                 width: 100%;
+                max-width: 100%;
             }
 
             .list-item-thumbnail {
@@ -411,19 +417,21 @@
                 justify-content: flex-end;
                 order: 1;
                 padding-top: 0;
-                gap: 4px;
+                gap: 2px;
             }
 
             button {
-                padding: 6px 8px;
-                min-width: 36px;
-                font-size: 0.9rem;
+                padding: 4px;
+                min-width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
             }
 
             .video-title, .preset-name {
                 font-size: 0.8rem;
-                max-width: 120px;
-                display: block;
+                max-width: 100px;
+                display: block !important;
+                line-height: 1.2;
             }
 
             .video-id, .preset-type, .preset-video-count {
@@ -434,15 +442,28 @@
             .preset-videos .list-item-content {
                 flex-direction: row;
                 flex-wrap: nowrap;
+                max-width: 100%;
             }
 
             .preset-videos .list-item-thumbnail {
                 width: 48px;
                 height: 27px;
+                margin-right: 6px;
             }
 
             .preset-videos .list-item-details {
                 flex: 1;
+                max-width: 100px;
+            }
+
+            .preset-videos li {
+                padding: 6px;
+                min-height: 48px;
+            }
+
+            #currentPlaylist li, #fsPresetList li {
+                padding: 8px;
+                min-height: 52px;
             }
         }
     </style>
@@ -721,7 +742,7 @@
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 if (data.error) {
-                    return { id:อันvideoId, title: `動画 (ID: ${videoId})`, thumbnail: null };
+                    return { id: videoId, title: `動画 (ID: ${videoId})`, thumbnail: null };
                 }
                 return { id: videoId, title: data.title || `動画 (ID: ${videoId})`, thumbnail: data.thumbnail_url || null };
             } catch (e) {
@@ -1035,17 +1056,17 @@
                     if (player && preset && preset.videos && preset.videos.length > 0) {
                         player.loadPlaylist({ playlist: preset.videos.map(v => v.id), index: startIndex });
                     } else {
-                        alert("プレイヤー未準備またはリストが空");
+                        alert("プレイヤー未準備");
                     }
                 }));
             } catch (e) {
                 if (e.message.includes("The query requires an index")) {
                     fsPresetListEl.innerHTML = '<li>読み込みエラー。インデックスを作成: <a href="https://console.firebase.google.com/v1/r/project/yoop-89cc6/firestore/indexes?create_composite=Cltwcm9qZWN0cy95b29wLTg5Y2M2L2RhdGFiYXNlcy8oZGVmYXVsdCkvY29sbGVjdGlvbkdyb3Vwcy9zdGFuZGFsb25lX3ByZXNldHNfeXRfdjIvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJY3JlYXRlZEF0EAIaDAoIX19uYW1lX18QAg" target="_blank">インデックス</a></li>';
                 } else {
-                    fsPresetListEl.innerHTML = `<li>読み込みエラー: ${e.message}</li>`;
+                    fsPresetListEl.innerHTML = `<li>${e.message}</li>`;
                 }
             }
-        }
+        };
 
         checkInitialLoginStatus();
     </script>
