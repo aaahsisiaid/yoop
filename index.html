@@ -416,14 +416,18 @@
             }
 
             .list-item-thumbnail {
-                width: 64px;
-                height: 36px;
+                width: 96px;
+                height: 54px;
                 margin-right: 12px;
+            }
+
+            .list-item-details {
+                max-width: 978px;
             }
 
             .video-title, .preset-name {
                 font-size: 1rem;
-                max-width: 300px;
+                max-width: 978px;
             }
 
             .video-id, .preset-type, .preset-video-count {
@@ -451,8 +455,16 @@
             }
 
             .preset-videos .list-item-thumbnail {
-                width: 48px;
-                height: 27px;
+                width: 72px;
+                height: 40.5px;
+            }
+
+            .preset-videos .list-item-details {
+                max-width: 986px;
+            }
+
+            .preset-videos .video-title {
+                max-width: 986px;
             }
 
             .import-button, .delete-button, .toggle-videos-button {
@@ -504,14 +516,18 @@
             }
 
             .list-item-thumbnail {
-                width: 56px;
-                height: 31.5px;
+                width: 84px;
+                height: 47.25px;
                 margin-right: 10px;
+            }
+
+            .list-item-details {
+                max-width: 588px;
             }
 
             .video-title, .preset-name {
                 font-size: 0.85rem;
-                max-width: 150px;
+                max-width: 588px;
             }
 
             .video-id, .preset-type, .preset-video-count {
@@ -548,8 +564,8 @@
             }
 
             .list-item-thumbnail {
-                width: 40px;
-                height: 22px;
+                width: 60px;
+                height: 33px;
                 margin-right: 4px;
                 margin-bottom: 0;
                 order: -1;
@@ -560,7 +576,7 @@
                 flex: 1;
                 order: 0;
                 min-width: 0;
-                max-width: 80px;
+                max-width: 248px;
             }
 
             .list-item-actions {
@@ -579,7 +595,7 @@
 
             .video-title, .preset-name {
                 font-size: 0.7rem;
-                max-width: 80px;
+                max-width: 248px;
                 display: block !important;
                 line-height: 1.1;
             }
@@ -606,6 +622,19 @@
 
             .preset-videos {
                 padding-left: 12px;
+            }
+
+            .preset-videos .list-item-thumbnail {
+                width: 54px;
+                height: 30px;
+            }
+
+            .preset-videos .list-item-details {
+                max-width: 242px;
+            }
+
+            .preset-videos .video-title {
+                max-width: 242px;
             }
         }
     </style>
@@ -655,6 +684,13 @@
             </div>
 
             <div class="area">
+                <h2>動画停止設定</h2>
+                <input type="text" id="stopTimeInput" placeholder="停止時間 (秒)">
+                <button id="setStopTimeButton" class="primary-button"><i class="fas fa-stop"></i> 設定</button>
+                <div id="stopTimeStatus" class="status-message"></div>
+            </div>
+
+            <div class="area">
                 <h3>プリセット</h3>
                 <ul id="fsPresetList"></ul>
             </div>
@@ -684,6 +720,7 @@
         let currentEditingPlaylist = [];
         let currentFsUserId = null;
         let currentFsUsername = null;
+        let stopTime = 0; // 停止時間（ミリ秒）
         const usersCollectionRef = collection(db, "standalone_users_yt_v2");
         const presetsCollectionRef = collection(db, "standalone_presets_yt_v2");
 
@@ -700,6 +737,9 @@
         const videoUrlsForListTextareaEl = document.getElementById('videoUrlsForList');
         const addToListStatusEl = document.getElementById('addToListStatus');
         const addToListLoaderEl = document.getElementById('addToListLoader');
+        const stopTimeInputEl = document.getElementById('stopTimeInput');
+        const setStopTimeButtonEl = document.getElementById('setStopTimeButton');
+        const stopTimeStatusEl = document.getElementById('stopTimeStatus');
 
         window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('player', {
@@ -717,7 +757,16 @@
         }
 
         function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED && currentEditingPlaylist.length > 0) {
+            if (event.data === YT.PlayerState.PLAYING && stopTime > 0) {
+                clearTimeout(window.stopTimer); // 既存のタイマーをクリア
+                window.stopTimer = setTimeout(() => {
+                    if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+                        player.stopVideo();
+                        stopTimeStatusEl.textContent = '動画が停止時間に達しました';
+                        setTimeout(() => { stopTimeStatusEl.textContent = ''; }, 3000);
+                    }
+                }, stopTime);
+            } else if (event.data === YT.PlayerState.ENDED && currentEditingPlaylist.length > 0) {
                 const currentIndex = player.getPlaylistIndex();
                 const nextIndex = (currentIndex + 1) % currentEditingPlaylist.length;
                 player.loadPlaylist({
@@ -1061,6 +1110,19 @@
             }
             const firstVideo = currentEditingPlaylist[0];
             savePresetToFirestore({ type: 'single', videoId: firstVideo.id, title: firstVideo.title, thumbnail: firstVideo.thumbnail });
+        });
+
+        document.getElementById('setStopTimeButton').addEventListener('click', () => {
+            const time = parseInt(stopTimeInputEl.value.trim(), 10);
+            if (isNaN(time) || time <= 0) {
+                stopTimeStatusEl.textContent = '有効な秒数を入力してください';
+                stopTime = 0;
+            } else {
+                stopTime = time * 1000; // 秒をミリ秒に変換
+                stopTimeStatusEl.textContent = `${time}秒後に停止する設定を保存`;
+                setTimeout(() => { stopTimeStatusEl.textContent = ''; }, 3000);
+            }
+            stopTimeInputEl.value = '';
         });
 
         async function loadFsPresets() {
