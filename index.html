@@ -263,46 +263,41 @@
         .list-item-actions {
             display: flex;
             align-items: center;
-            gap: 1px;
+            gap: 4px;
             flex-shrink: 0;
             flex-direction: row;
-            justify-content: flex-end;
+            justify-content: flex-start;
+            margin-top: 4px;
         }
 
         #fsPresetList li {
             background: var(--bg-white);
-            padding: 4px;
+            padding: 8px;
             margin-bottom: 8px;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            flex-wrap: nowrap;
-            min-height: 44px;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 60px;
         }
 
         #fsPresetList .list-item-content {
             display: flex;
             align-items: center;
             flex-wrap: nowrap;
-        }
-
-        #fsPresetList .list-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-shrink: 0;
+            width: 100%;
         }
 
         .preset-videos {
-            margin-top: 4px;
+            margin-top: 8px;
             padding-left: 16px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
             list-style: none;
             padding: 0;
+            width: 100%;
         }
 
         .preset-videos.expanded {
@@ -382,6 +377,95 @@
             100% { transform: rotate(360deg); }
         }
 
+        @media (min-width: 769px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 20px;
+                max-width: 1200px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            input, textarea {
+                font-size: 1.1rem;
+                padding: 12px;
+            }
+
+            button {
+                padding: 12px 16px;
+                font-size: 1rem;
+                min-width: 60px;
+                height: 40px;
+            }
+
+            .list-item-content {
+                flex: 1;
+            }
+
+            .list-item-thumbnail {
+                width: 64px;
+                height: 36px;
+                margin-right: 12px;
+            }
+
+            .video-title, .preset-name {
+                font-size: 1rem;
+                max-width: 300px;
+            }
+
+            .video-id, .preset-type, .preset-video-count {
+                font-size: 0.9rem;
+            }
+
+            .list-item-actions {
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            #currentPlaylist li {
+                padding: 12px;
+                min-height: 60px;
+            }
+
+            #fsPresetList li {
+                padding: 12px;
+                min-height: 80px;
+            }
+
+            .preset-videos li {
+                padding: 6px 0;
+                min-height: 32px;
+            }
+
+            .preset-videos .list-item-thumbnail {
+                width: 48px;
+                height: 27px;
+            }
+
+            .import-button, .delete-button, .toggle-videos-button {
+                min-width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+
+            #fsPresetList .list-item-actions {
+                gap: 8px;
+            }
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 8px;
@@ -435,7 +519,7 @@
             }
 
             .list-item-actions {
-                gap: 2px;
+                gap: 4px;
             }
 
             #currentPlaylist li {
@@ -444,8 +528,8 @@
             }
 
             #fsPresetList li {
-                padding: 10px;
-                min-height: 56px;
+                padding: 8px;
+                min-height: 60px;
             }
 
             .preset-videos li {
@@ -480,11 +564,10 @@
             }
 
             .list-item-actions {
-                width: auto;
-                justify-content: flex-end;
-                order: 1;
-                padding-top: 0;
-                gap: 1px;
+                width: 100%;
+                justify-content: flex-start;
+                gap: 4px;
+                margin-top: 4px;
             }
 
             button {
@@ -513,16 +596,12 @@
 
             #fsPresetList li {
                 padding: 4px;
-                min-height: 44px;
+                min-height: 60px;
             }
 
             .preset-videos li {
                 padding: 2px 0;
                 min-height: 24px;
-            }
-
-            #fsPresetList .list-item-actions {
-                gap: 2px;
             }
 
             .preset-videos {
