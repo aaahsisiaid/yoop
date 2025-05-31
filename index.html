@@ -310,12 +310,12 @@
         }
 
         .preset-videos li {
-            background: var(--bg-white);
-            padding: 4px 0;
-            margin-bottom: 6px;
+            background: transparent;
+            padding: 2px 0;
+            margin-bottom: 4px;
             border: none;
             border-radius: 0;
-            min-height: 28px;
+            min-height: 24px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -326,6 +326,13 @@
         .preset-videos .list-item-content {
             padding-left: 8px;
             flex: 1;
+            align-items: center;
+        }
+
+        .preset-videos .list-item-thumbnail {
+            width: 36px;
+            height: 20px;
+            margin-right: 4px;
         }
 
         .user-info-bar {
@@ -442,8 +449,8 @@
             }
 
             .preset-videos li {
-                padding: 6px 0;
-                min-height: 32px;
+                padding: 4px 0;
+                min-height: 28px;
             }
         }
 
@@ -510,8 +517,8 @@
             }
 
             .preset-videos li {
-                padding: 4px 0;
-                min-height: 28px;
+                padding: 2px 0;
+                min-height: 24px;
             }
 
             #fsPresetList .list-item-actions {
@@ -520,11 +527,6 @@
 
             .preset-videos {
                 padding-left: 12px;
-            }
-
-            .preset-videos .list-item-thumbnail {
-                width: 36px;
-                height: 20px;
             }
         }
     </style>
