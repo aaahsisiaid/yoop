@@ -196,7 +196,7 @@
             padding: 0;
         }
 
-        #currentPlaylist li, #fsPresetList li {
+        #currentPlaylist li {
             background: var(--bg-white);
             padding: 4px;
             margin-bottom: 8px;
@@ -269,13 +269,40 @@
             justify-content: flex-end;
         }
 
+        #fsPresetList li {
+            background: var(--bg-white);
+            padding: 4px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            min-height: 44px;
+        }
+
+        #fsPresetList .list-item-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        #fsPresetList .list-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
         .preset-videos {
-            margin-top: 0;
-            padding-left: 0;
+            margin-top: 4px;
+            padding-left: 16px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            width: 100%;
+            list-style: none;
+            padding: 0;
         }
 
         .preset-videos.expanded {
@@ -283,15 +310,22 @@
         }
 
         .preset-videos li {
-            padding: 4px;
+            background: var(--bg-white);
+            padding: 4px 0;
             margin-bottom: 6px;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            min-height: 44px;
+            border: none;
+            border-radius: 0;
+            min-height: 28px;
             display: flex;
             flex-direction: row;
             align-items: center;
             flex-wrap: nowrap;
+            border-left: 4px solid var(--neutral);
+        }
+
+        .preset-videos .list-item-content {
+            padding-left: 8px;
+            flex: 1;
         }
 
         .user-info-bar {
@@ -397,14 +431,19 @@
                 gap: 2px;
             }
 
-            .preset-videos li {
-                padding: 8px;
-                min-height: 52px;
-            }
-
-            #currentPlaylist li, #fsPresetList li {
+            #currentPlaylist li {
                 padding: 10px;
                 min-height: 56px;
+            }
+
+            #fsPresetList li {
+                padding: 10px;
+                min-height: 56px;
+            }
+
+            .preset-videos li {
+                padding: 6px 0;
+                min-height: 32px;
             }
         }
 
@@ -460,31 +499,32 @@
                 display: block;
             }
 
-            .preset-videos .list-item-content {
-                flex-direction: row;
-                flex-wrap: nowrap !important;
-                max-width: 100%;
+            #currentPlaylist li {
+                padding: 4px;
+                min-height: 44px;
             }
 
-            .preset-videos .list-item-thumbnail {
-                width: 40px;
-                height: 22px;
-                margin-right: 2px;
-            }
-
-            .preset-videos .list-item-details {
-                flex: 1;
-                max-width: 80px;
+            #fsPresetList li {
+                padding: 4px;
+                min-height: 44px;
             }
 
             .preset-videos li {
-                padding: 4px;
-                min-height: 44px;
+                padding: 4px 0;
+                min-height: 28px;
             }
 
-            #currentPlaylist li, #fsPresetList li {
-                padding: 4px;
-                min-height: 44px;
+            #fsPresetList .list-item-actions {
+                gap: 2px;
+            }
+
+            .preset-videos {
+                padding-left: 12px;
+            }
+
+            .preset-videos .list-item-thumbnail {
+                width: 36px;
+                height: 20px;
             }
         }
     </style>
